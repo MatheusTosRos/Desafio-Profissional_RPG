@@ -119,7 +119,7 @@ http://localhost:8080
 
 ## 🗂 Autor
 
-- Nome: Kauan Bertalha
+- Nome: Matheus Toscano Rossini
 - Curso: Engenharia de Software – UniCesumar
 - Atividade: CRUD de RPG
 
