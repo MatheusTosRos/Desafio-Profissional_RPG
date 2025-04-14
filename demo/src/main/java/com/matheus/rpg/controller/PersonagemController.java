@@ -21,6 +21,11 @@ public class PersonagemController {
         return personagemService.criar(personagem);
     }
 
+    @PostMapping("/{id}/item")
+    public Personagem adicionarItem(@PathVariable Long id, @RequestBody ItemMagico item) {
+        return personagemService.adicionarItem(id, item);
+    }
+
     @GetMapping
     public List<Personagem> listar() {
         return personagemService.listar();
