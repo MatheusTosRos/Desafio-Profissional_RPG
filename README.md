@@ -1,87 +1,131 @@
-# 🧙‍♂️ Guia Brabo das Rotas - RPG CRUD
+# 🧙‍♂️ Sistema de Gerenciamento de RPG
 
-Bem-vindo ao mundo mágico do seu sistema de RPG! Aqui você vai aprender como usar **cada rota** com carinho, suor e um toque de magia 🪄✨
+Este projeto é um sistema CRUD para gerenciar **Personagens** e **Itens Mágicos** de um jogo de RPG. A aplicação foi desenvolvida com **Java + Spring Boot**, aplicando os conceitos de **Programação Orientada a Objetos**.
 
-## 🎲 Personagens
+## ✅ Requisitos Funcionais
 
-### ➕ Criar personagem
-`POST /personagens`
+- Criar/Listar/Buscar/Remover personagens.
+- Criar/Listar/Buscar itens mágicos.
+- Associar itens mágicos aos personagens.
+- Listar e remover itens de um personagem.
+- Buscar amuleto de um personagem.
+- Validações específicas para cada tipo de item.
 
-📦 Exemplo de body:
+---
+
+## 📦 Tecnologias
+
+- Java 17+
+- Spring Boot
+- Maven
+- JPA / Hibernate
+- H2 Database (memória)
+- REST API
+
+---
+
+## 🚀 Como Executar
+
+1. **Clone o repositório:**
+
+```bash
+git clone https://github.com/seu-usuario/seu-repo.git
+cd seu-repo
+```
+
+2. **Rode o projeto com Maven:**
+
+```bash
+./mvnw spring-boot:run
+```
+
+3. A aplicação iniciará em:
+
+```
+http://localhost:8080
+```
+
+---
+
+## 📬 Endpoints
+
+### 📁 Personagens
+
+| Método | Rota                         | Descrição                              |
+|--------|------------------------------|----------------------------------------|
+| POST   | `/personagens`               | Criar um novo personagem               |
+| GET    | `/personagens`               | Listar todos os personagens            |
+| GET    | `/personagens/{id}`          | Buscar personagem por ID               |
+| PUT    | `/personagens/{id}/nomeAventureiro` | Atualizar nome aventureiro     |
+| DELETE | `/personagens/{id}`          | Remover personagem                     |
+| POST   | `/personagens/{id}/item`     | Adicionar item mágico ao personagem    |
+| DELETE | `/personagens/{id}/item/{itemId}` | Remover item mágico do personagem |
+| GET    | `/personagens/{id}/itens`    | Listar todos os itens do personagem    |
+| GET    | `/personagens/{id}/amuleto`  | Buscar o amuleto do personagem         |
+
+### ✨ Itens Mágicos
+
+| Método | Rota         | Descrição                   |
+|--------|--------------|-----------------------------|
+| POST   | `/itens`     | Criar um novo item mágico   |
+| GET    | `/itens`     | Listar todos os itens       |
+| GET    | `/itens/{id}`| Buscar item mágico por ID   |
+
+---
+
+## ⚙️ Regras de Negócio
+
+### Personagem
+
+- Deve ter exatamente 10 pontos distribuídos entre **forçaBase** e **defesaBase**.
+- Pode ter **vários itens mágicos**, mas apenas **1 amuleto**.
+
+### Item Mágico
+
+- Tipos permitidos: `ARMA`, `ARMADURA`, `AMULETO`.
+- Força e Defesa devem ser **> 0** e **<= 10**.
+- Armas devem ter **defesa = 0**.
+- Armaduras devem ter **força = 0**.
+- Amuletos podem ter força e defesa, mas um personagem pode ter **apenas 1**.
+
+---
+
+## 🛠 Exemplo de JSON
+
+### Criar Personagem
+
 ```json
-{ 
-  "nome": "João da Espada", 
-  "nomeAventureiro": "Espadachim das Trevas", 
-  "classe": "GUERREIRO", 
-  "forcaBase": 6, 
-  "defesaBase": 4 
+{
+  "nome": "Arthur",
+  "nomeAventureiro": "Rei da Espada",
+  "classe": "GUERREIRO",
+  "forcaBase": 6,
+  "defesaBase": 4
 }
 ```
 
-Lembrete: forçaBase + defesaBase tem que ser **10** certinho!
+### Criar Item Mágico
 
-### 📋 Listar todos os personagens
-`GET /personagens`
-
-### 🔍 Buscar personagem por ID
-`GET /personagens/{id}` Ex: `GET /personagens/1`
-
-### ✏️ Atualizar nome aventureiro
-`PUT /personagens/{id}/nomeAventureiro`
-
-📦 Body (string simples):
-```
-"Novo Nome Aventureiro"
-```
-
-Ex: `"O Implacável"`
-
-### ❌ Remover personagem
-`DELETE /personagens/{id}` Ex: `DELETE /personagens/1`
-
-### ✨ Buscar amuleto de um personagem
-`GET /personagens/{id}/amuleto` Ex: `GET /personagens/1/amuleto`
-
-### 🎒 Listar itens de um personagem
-`GET /personagens/{id}/itens` Ex: `GET /personagens/1/itens`
-
-### ➕ Adicionar item ao personagem
-`PUT /personagens/{id}/item?idItem={idItem}` Ex: `PUT /personagens/1/item?idItem=3`
-
-⚠️ Regras mágicas:
-* Só pode **1 amuleto** por personagem!
-* O item precisa existir!
-
-### ❌ Remover item do personagem
-`DELETE /personagens/{id}/item?idItem={idItem}` Ex: `DELETE /personagens/1/item?idItem=3`
-
-## 🪄 Itens Mágicos
-
-### ➕ Criar item mágico
-`POST /itens`
-
-📦 Exemplo de body:
 ```json
-{ 
-  "nome": "Espada Flamejante", 
-  "tipo": "ARMA", 
-  "forca": 10, 
-  "defesa": 0 
+{
+  "nome": "Espada Flamejante",
+  "tipo": "ARMA",
+  "forca": 7,
+  "defesa": 0
 }
 ```
 
-⚠️ Regras:
-* ARMA = defesa **obrigatoriamente 0**
-* ARMADURA = força **obrigatoriamente 0**
-* AMULETO = pode ter os dois
-* Nenhum item pode ter força **e** defesa **0**
-* Máximo de 10 por atributo
+---
 
-### 📋 Listar todos os itens
-`GET /itens`
+## 🗂 Autor
 
-### 🔍 Buscar item por ID
-`GET /itens/{id}` Ex: `GET /itens/2`
+- Nome: Kauan Bertalha
+- Curso: Engenharia de Software – UniCesumar
+- Atividade: CRUD de RPG
 
-## 💡 Dica Final
-Use o Postman com carinho, escolha o método certo (GET, POST, PUT, DELETE) e **lembre de colocar o** `Content-Type: application/json` quando for mandar corpo na requisição 🙌
+---
+
+## ⚠️ Observações
+
+- Esta aplicação não deve ser usada com auxílio de ferramentas de IA para avaliação.
+- O repositório deve ser individual e público.
